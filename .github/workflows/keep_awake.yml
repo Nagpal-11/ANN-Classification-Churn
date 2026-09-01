@@ -1,0 +1,21 @@
+name: Keep Streamlit App Awake
+
+on:
+  schedule:
+    # Runs every 12 hours to reset the Streamlit countdown clock
+    - cron: '0 */12 * * *'
+  workflow_dispatch: # Allows you to manually trigger it from GitHub if needed
+
+jobs:
+  keep_awake:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Create empty commit
+      run: |
+        git config --global user.name "github-actions[bot]"
+        git config --global user.email "41898282+github-actions[bot]@://github.com"
+        git commit --allow-empty -m "Keep-alive: Resetting Streamlit inactivity timer"
+        git push
